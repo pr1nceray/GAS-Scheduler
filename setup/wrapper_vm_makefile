@@ -1,0 +1,17 @@
+CC = g++-13
+CFLAGS = -fPIC -std=c++20 -o3 -Wall -Wextra -I/usr/local/cuda-12.6/include
+LDFLAGS = -shared -ldl -pthread -L/usr/lib/x86_64-linux-gnu -L/usr/local/cuda-12.6/targets/x86_64-linux/lib/stubs
+SOURCES = debug_printf.cpp general_hooks.cpp openg_intercepts.cpp sdl2_intercepts.cpp plthook_elf.c daemon_comm.cpp ../daemon/daemon_utils.cpp
+TARGET = libhook.so
+
+all: $(TARGET)
+
+$(TARGET): $(SOURCES)
+        $(CC) $(CFLAGS) $(SOURCES) $(LDFLAGS) -o $(TARGET)
+
+preprocess: $(SOURCES)
+        $(CC) $(CFLAGS) -E $(SOURCES) $(LDFLAGS)
+
+clean:
+        rm -f $(TARGET)
+~                             

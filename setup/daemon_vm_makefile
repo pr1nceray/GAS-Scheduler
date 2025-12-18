@@ -1,0 +1,17 @@
+CC = g++-13
+CFLAGS = -std=c++20 -O3 -Wall -Wextra -I/usr/local/cuda-12.6/include
+LDFLAGS = -lrt -L/usr/lib/x86_64-linux-gnu -L/usr/local/cuda-12.6/targets/x86_64-linux/lib/stubs -lnvidia-ml -DDEBUG
+SOURCES = ../wrapper/debug_printf.cpp daemon.cpp daemon_utils.cpp
+TARGET = daemon.out
+
+all: $(TARGET)
+
+$(TARGET): $(SOURCES)
+        $(CC) $(CFLAGS) $(SOURCES) $(LDFLAGS) -o $(TARGET)
+
+preprocess: $(SOURCES)
+        $(CC) $(CFLAGS) -E $(SOURCES) $(LDFLAGS)
+
+clean:
+        rm -f $(TARGET)
+
